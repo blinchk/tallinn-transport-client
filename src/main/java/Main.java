@@ -1,7 +1,8 @@
-import clients.StopsClient;
+import client.SiriClient;
+import client.StopsClient;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +10,8 @@ public class Main {
         String path = currentPath + "/src/main/resources/stops.txt";
         var stopsClient = new StopsClient(path);
         var stops = stopsClient.parse();
-        stops.forEach(stop -> System.out.println(stop.getName() + " " + stop.getLocation()));
+        var stop = stops.stream().parallel().filter(_stop -> Objects.equals(_stop.getSiriId(), String.valueOf(1205))).findFirst();
+        var siriClient = new SiriClient(stop.get());
+        siriClient.requestArrivals().forEach(System.out::println);
     }
 }

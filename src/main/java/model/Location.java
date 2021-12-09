@@ -1,4 +1,4 @@
-package models;
+package model;
 
 public class Location {
     private final double latitude;

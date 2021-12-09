@@ -1,4 +1,4 @@
-package models;
+package model;
 
 public class SiriStopLocation extends Location {
     public SiriStopLocation(double latitude, double longitude) {

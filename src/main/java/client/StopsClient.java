@@ -1,11 +1,11 @@
-package clients;
+package client;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
-import models.SiriStop;
+import model.SiriStop;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
