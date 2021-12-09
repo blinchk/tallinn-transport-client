@@ -17,7 +17,6 @@ public class Arrival {
     private final static int EXPECTED_TIME_IN_SECONDS_INDEX = 2;
     private final static int ACTUAL_TIME_IN_SECONDS_INDEX = 3;
     private final static int ROUTE_DESTINATION_INDEX = 4;
-    private final static int IS_LOW_FLOOR_INDEX = 6;
 
     public Arrival(Route route, Stop stop, Date actual, Date expected, boolean isLowFloor) {
         this.route = route;
@@ -40,16 +39,17 @@ public class Arrival {
                 stop,
                 actual,
                 expected,
-                Objects.equals(parts[IS_LOW_FLOOR_INDEX], "Z")
+                parts.length > 6
         );
     }
 
     public String toString() {
-        return String.format("Stop: %s | Route: %s %s | %s %s",
+        return String.format("Stop: %s | Route: %s %s | %s %s | %s",
                 stop.getName(),
                 route.getRouteNumber(),
                 route.getDestination(),
                 actual.toString(),
-                expected.toString());
+                expected.toString(),
+                route.getTransportType().toString());
     }
 }

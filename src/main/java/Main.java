@@ -10,8 +10,9 @@ public class Main {
         String path = currentPath + "/src/main/resources/stops.txt";
         var stopsClient = new StopsClient(path);
         var stops = stopsClient.parse();
-        var stop = stops.stream().parallel().filter(_stop -> Objects.equals(_stop.getSiriId(), String.valueOf(1205))).findFirst();
-        var siriClient = new SiriClient(stop.get());
+        stops.forEach(stop -> System.out.println(stop.getSiriId() + " " + stop.getName() + " " + stop.getLocation()));
+        var stop = stops.stream().parallel().filter(_stop -> Objects.equals(_stop.getSiriId(), String.valueOf(1316))).findFirst();
+        var siriClient = new SiriClient(stop.orElseThrow(RuntimeException::new));
         siriClient.requestArrivals().forEach(System.out::println);
     }
 }

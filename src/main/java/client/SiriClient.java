@@ -25,12 +25,16 @@ public class SiriClient extends ExternalApiClient {
     public List<Arrival> requestArrivals() {
         HttpRequest request = buildGetRequest();
         String[] response = sendRequest(request);
-        return Arrays
-                .asList(response)
-                .subList(2, response.length)
-                .stream()
-                .map(arrival -> arrival.split(","))
-                .map(arrival -> Arrival.fromList(arrival, stop))
-                .toList();
+        try {
+            return Arrays
+                    .asList(response)
+                    .subList(2, response.length)
+                    .stream()
+                    .map(arrival -> arrival.split(","))
+                    .map(arrival -> Arrival.fromList(arrival, stop))
+                    .toList();
+        } catch (IllegalArgumentException e) {
+            return Collections.emptyList();
+        }
     }
 }
