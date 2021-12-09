@@ -8,6 +8,7 @@ public class SiriStop extends Stop {
     private final static int SIRI_ID_INDEX = 1;
     private final static int NAME_INDEX = 5;
     private final static int OTHER_IDS_INDEX = 4;
+    private final static int COORDINATE_DENOMINATOR = 100000;
 
     public final static int MINIMUM_LENGTH_WITH_NAME = 6;
 
@@ -20,11 +21,11 @@ public class SiriStop extends Stop {
     public static SiriStop fromList(String[] parts, String backupName) {
         String gtfsId = parts[GTFS_ID_INDEX];
         String name = parts.length >= MINIMUM_LENGTH_WITH_NAME ? parts[NAME_INDEX] : backupName;
-        double latitude = Double.parseDouble(parts[SiriStopLocation.LATITUDE_INDEX]) / 100000;
-        double longitude = Double.parseDouble(parts[SiriStopLocation.LONGITUDE_INDEX]) / 10000;
+        double latitude = Double.parseDouble(parts[SiriStopLocation.LATITUDE_INDEX]) / COORDINATE_DENOMINATOR;
+        double longitude = Double.parseDouble(parts[SiriStopLocation.LONGITUDE_INDEX]) / COORDINATE_DENOMINATOR;
         String siriId = parts[SIRI_ID_INDEX];
         String[] otherIds = parts[OTHER_IDS_INDEX].split(",");
-        Location location = new Location(latitude, longitude);
+        Location location = new SiriStopLocation(latitude, longitude);
         return
                 new SiriStop(gtfsId,
                         name,
