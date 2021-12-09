@@ -2,28 +2,21 @@ package client;
 
 import model.Arrival;
 import model.SiriStop;
+import model.request.SiriRequest;
 
 import java.net.http.HttpRequest;
-import java.time.Instant;
 import java.util.*;
 
 public class SiriClient extends ExternalApiClient {
     private static final String TRANSPORT_TALLINN_URL = "transport.tallinn.ee";
     private static final String SIRI_ENDPOINT = "/siri-stop-departures.php";
-    private final SiriStop stop;
 
-    private static Map<String, String> buildParameters(String stopId) {
-        String currentTime = String.valueOf(Instant.now().getEpochSecond());
-        return Map.of("stopid", stopId, "time", currentTime);
+    public SiriClient() {
+        super(TRANSPORT_TALLINN_URL, SIRI_ENDPOINT);
     }
 
-    public SiriClient(SiriStop stop) {
-        super(TRANSPORT_TALLINN_URL, SIRI_ENDPOINT, buildParameters(stop.getSiriId()));
-        this.stop = stop;
-    }
-
-    public List<Arrival> requestArrivals() {
-        HttpRequest request = buildGetRequest();
+    public List<Arrival> requestArrivals(SiriStop stop) {
+        HttpRequest request = buildGetRequest(SiriRequest.buildParameters(stop));
         String[] response = sendRequest(request);
         try {
             return Arrays

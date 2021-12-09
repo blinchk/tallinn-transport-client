@@ -29,14 +29,7 @@ public class ExternalApiClient {
         this.path = path;
     }
 
-    public ExternalApiClient(String host,
-                             String path,
-                             Map<String, String> parameters) {
-        this(host, path);
-        this.parameters = parameters;
-    }
-
-    private URI getRequestUri() throws URISyntaxException {
+    private URI getRequestUri(Map<String, String> parameters) throws URISyntaxException {
         URIBuilder endpointUriBuilder = new URIBuilder()
                 .setScheme("https")
                 .setHost(this.host)
@@ -51,17 +44,17 @@ public class ExternalApiClient {
         return endpointUriBuilder.build();
     }
 
-    private HttpRequest.Builder createBuilderForUri() throws URISyntaxException {
-        URI uri = getRequestUri();
+    private HttpRequest.Builder createBuilderForUri(Map<String, String> parameters) throws URISyntaxException {
+        URI uri = getRequestUri(parameters);
         System.out.println(uri.toString());
         return HttpRequest
                 .newBuilder()
                 .uri(uri);
     }
 
-    protected HttpRequest buildGetRequest() {
+    protected HttpRequest buildGetRequest(Map<String, String> parameters) {
         try {
-            return createBuilderForUri().GET().build();
+            return createBuilderForUri(parameters).GET().build();
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return null;
