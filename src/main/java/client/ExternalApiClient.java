@@ -1,19 +1,13 @@
 package client;
 
-import model.request.ExternalApiRequestBuilder;
-import org.apache.http.client.utils.URIBuilder;
+import model.builder.ExternalApiRequestBuilder;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 
 public class ExternalApiClient {

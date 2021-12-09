@@ -1,4 +1,4 @@
-package model.request;
+package model.builder;
 
 import org.apache.http.client.utils.URIBuilder;
 

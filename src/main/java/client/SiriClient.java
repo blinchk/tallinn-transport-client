@@ -2,7 +2,7 @@ package client;
 
 import model.Arrival;
 import model.SiriStop;
-import model.request.ExternalApiRequestBuilder;
+import model.factory.ArrivalFactory;
 import model.request.SiriRequest;
 
 import java.net.http.HttpRequest;
@@ -26,7 +26,7 @@ public class SiriClient extends ExternalApiClient {
                     .subList(2, response.length)
                     .stream()
                     .map(arrival -> arrival.split(","))
-                    .map(arrival -> Arrival.fromList(arrival, stop))
+                    .map(arrival -> ArrivalFactory.fromList(arrival, stop))
                     .toList();
         } catch (IllegalArgumentException e) {
             return Collections.emptyList();

@@ -6,6 +6,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import model.SiriStop;
+import model.factory.SiriStopFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -42,7 +43,7 @@ public class StopsClient {
         final int DEFAULT_NAME_INDEX = 5;
         for (var stopStrings : stopsStrings) {
             if (stopStrings.length >= SiriStop.MINIMUM_LENGTH_WITH_NAME) backupName = stopStrings[DEFAULT_NAME_INDEX];
-            var stop = SiriStop.fromList(stopStrings, backupName);
+            var stop = SiriStopFactory.fromList(stopStrings, backupName);
             stops.add(stop);
         }
         return stops;
