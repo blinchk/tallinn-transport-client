@@ -2,6 +2,7 @@ package client;
 
 import model.Arrival;
 import model.SiriStop;
+import model.request.ExternalApiRequestBuilder;
 import model.request.SiriRequest;
 
 import java.net.http.HttpRequest;
@@ -16,7 +17,8 @@ public class SiriClient extends ExternalApiClient {
     }
 
     public List<Arrival> requestArrivals(SiriStop stop) {
-        HttpRequest request = buildGetRequest(SiriRequest.buildParameters(stop));
+        Map<String, String> parameters = SiriRequest.buildParameters(stop);
+        HttpRequest request = this.getRequestBuilder().buildGetRequest(parameters);
         String[] response = sendRequest(request);
         try {
             return Arrays
