@@ -1,9 +1,6 @@
 package model;
 
-import util.DateUtils;
-
 import java.util.Date;
-import java.util.Objects;
 
 public class Arrival {
     private final Route route;
@@ -25,12 +22,15 @@ public class Arrival {
     }
 
     public String toString() {
-        return String.format("Stop: %s | Route: %s %s | %s %s | %s",
+        return String.format("Stop: %s | Route: %s %s | %s s | %s",
                 stop.getName(),
                 route.getRouteNumber(),
                 route.getDestination(),
-                actual.toString(),
-                expected.toString(),
+                getTimeDifferenceInSeconds(),
                 route.getTransportType().toString());
+    }
+
+    public long getTimeDifferenceInSeconds() {
+        return ( actual.getTime() - expected.getTime() ) / 1000;
     }
 }
