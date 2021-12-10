@@ -1,25 +1,25 @@
 package model;
 
 public enum TransportType {
-    BUS("bus"),
-    TRAM("tram"),
-    TROLLEYBUS("trolleybus");
-
-    private final String value;
-
-    TransportType(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
+    BUS,
+    TRAM,
+    TROLLEYBUS,
+    TRAIN,
+    FERRY,
+    SUBWAY,
+    COMMERCIAL_BUS,
+    REGIONAL_BUS;
 
     public static TransportType fromString(String type) {
         return switch (type) {
             case "bus" -> TransportType.BUS;
             case "trolleybus" -> TransportType.TROLLEYBUS;
             case "tram" -> TransportType.TRAM;
+            case "subway" -> TransportType.SUBWAY;
+            case "train" -> TransportType.TRAIN;
+            case "ferry" -> TransportType.FERRY;
+            case "regionalBus" -> TransportType.REGIONAL_BUS;
+            case "commercialBus" -> TransportType.COMMERCIAL_BUS;
             default -> throw new IllegalArgumentException("Isn't assignable to this type of array.");
         };
     }
