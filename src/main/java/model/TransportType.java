@@ -13,7 +13,7 @@ public enum TransportType {
     public static TransportType fromString(String type) {
         return switch (type) {
             case "bus" -> TransportType.BUS;
-            case "trolleybus" -> TransportType.TROLLEYBUS;
+            case "trol" -> TransportType.TROLLEYBUS;
             case "tram" -> TransportType.TRAM;
             case "subway" -> TransportType.SUBWAY;
             case "train" -> TransportType.TRAIN;

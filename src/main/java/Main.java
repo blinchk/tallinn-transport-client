@@ -11,7 +11,7 @@ public class Main {
         var stopsClient = new StopsClient(path);
         var stops = stopsClient.parse();
         stops.forEach(stop -> System.out.println(stop.getSiriId() + " " + stop.getName() + " " + stop.getLocation()));
-        var stop = stops.stream().parallel().filter(_stop -> Objects.equals(_stop.getSiriId(), String.valueOf(1316))).findFirst();
+        var stop = stops.stream().parallel().filter(_stop -> Objects.equals(_stop.getSiriId(), String.valueOf(1333))).findFirst();
         var siriClient = new SiriClient();
         siriClient.requestArrivals(stop.orElseThrow(RuntimeException::new)).forEach(System.out::println);
     }
