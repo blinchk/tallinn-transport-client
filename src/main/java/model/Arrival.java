@@ -1,5 +1,6 @@
 package model;
 
+import java.time.Instant;
 import java.util.Date;
 
 public class Arrival {
@@ -22,21 +23,23 @@ public class Arrival {
     }
 
     public String toString() {
-        return String.format("Stop: %s | Route: %s %s | %s min (%s s) | %s",
+        return String.format("Stop: %s | Route: %s %s \n- Expected: %s | Actual: %s | %s min (%s s) \n- %s",
                 stop.getName(),
                 route.getRouteNumber(),
                 route.getDestination(),
+                expected,
+                actual,
                 getRemainingTimeInMinutes(),
                 getTimeDifferenceInSeconds(),
                 route.getTransportType().toString());
     }
 
     public long getRemainingTimeInSeconds() {
-        return Math.abs( new Date().getTime() - actual.getTime() ) / 1000;
+        return Math.abs( Date.from(Instant.now()).getTime() - actual.getTime() ) / 1000;
     }
 
     public long getRemainingTimeInMinutes() {
-        return (int) getRemainingTimeInSeconds() / 60;
+        return (int) (getRemainingTimeInSeconds() / 60);
     }
 
     public long getTimeDifferenceInSeconds() {

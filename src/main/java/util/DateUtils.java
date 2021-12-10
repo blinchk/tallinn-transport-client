@@ -10,7 +10,7 @@ public class DateUtils {
         now.setTime(date);
         var hours = Integer.valueOf(seconds / 3600);
         var minutesSeconds = seconds % 3600;
-        now.set(Calendar.HOUR, hours);
+        now.set(Calendar.HOUR_OF_DAY, hours);
         now.set(Calendar.MINUTE, minutesSeconds / 60);
         now.set(Calendar.SECOND, minutesSeconds % 60);
         return Date.from(now.toInstant());
