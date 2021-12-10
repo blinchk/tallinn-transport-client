@@ -20,7 +20,7 @@ public enum TransportType {
             case "ferry" -> TransportType.FERRY;
             case "regionalBus" -> TransportType.REGIONAL_BUS;
             case "commercialBus" -> TransportType.COMMERCIAL_BUS;
-            default -> throw new IllegalArgumentException("Isn't assignable to this type of array.");
+            default -> throw new IllegalArgumentException("Cannot be assigned to any kind of transport.");
         };
     }
 }
