@@ -22,12 +22,21 @@ public class Arrival {
     }
 
     public String toString() {
-        return String.format("Stop: %s | Route: %s %s | %s s | %s",
+        return String.format("Stop: %s | Route: %s %s | %s min (%s s) | %s",
                 stop.getName(),
                 route.getRouteNumber(),
                 route.getDestination(),
+                getRemainingTimeInMinutes(),
                 getTimeDifferenceInSeconds(),
                 route.getTransportType().toString());
+    }
+
+    public long getRemainingTimeInSeconds() {
+        return Math.abs( new Date().getTime() - actual.getTime() ) / 1000;
+    }
+
+    public long getRemainingTimeInMinutes() {
+        return (int) getRemainingTimeInSeconds() / 60;
     }
 
     public long getTimeDifferenceInSeconds() {
