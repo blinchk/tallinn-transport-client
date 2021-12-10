@@ -1,10 +1,10 @@
-package model.factory;
+package me.laus.tallinn_transport.model.factory;
 
-import model.Arrival;
-import model.Route;
-import model.Stop;
-import model.TransportType;
-import util.DateUtils;
+import me.laus.tallinn_transport.model.Arrival;
+import me.laus.tallinn_transport.model.Route;
+import me.laus.tallinn_transport.model.Stop;
+import me.laus.tallinn_transport.model.TransportType;
+import me.laus.tallinn_transport.util.DateUtils;
 
 import java.util.Date;
 

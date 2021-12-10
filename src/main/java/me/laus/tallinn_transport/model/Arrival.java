@@ -1,4 +1,4 @@
-package model;
+package me.laus.tallinn_transport.model;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;

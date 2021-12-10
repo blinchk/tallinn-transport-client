@@ -1,4 +1,4 @@
-package client;
+package me.laus.tallinn_transport.client.internal;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

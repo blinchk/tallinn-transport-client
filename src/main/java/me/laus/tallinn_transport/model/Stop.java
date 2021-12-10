@@ -1,4 +1,4 @@
-package model;
+package me.laus.tallinn_transport.model;
 
 public class Stop {
     private final String gtfsId;

@@ -1,4 +1,4 @@
-package model.builder;
+package me.laus.tallinn_transport.model.builder;
 
 import org.apache.http.client.utils.URIBuilder;
 

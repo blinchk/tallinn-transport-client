@@ -1,4 +1,4 @@
-package model;
+package me.laus.tallinn_transport.model;
 
 public class SiriStopLocation extends Location {
     public SiriStopLocation(double latitude, double longitude) {

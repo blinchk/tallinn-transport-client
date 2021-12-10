@@ -1,4 +1,4 @@
-package model;
+package me.laus.tallinn_transport.model;
 
 public class Route {
     private final TransportType transportType;

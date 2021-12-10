@@ -1,4 +1,4 @@
-package model;
+package me.laus.tallinn_transport.model;
 
 public class Location {
     private final double latitude;

@@ -1,7 +1,9 @@
-package client;
+package me.laus.tallinn_transport.client.internal;
 
-import model.SiriStop;
-import model.factory.SiriStopFactory;
+import me.laus.tallinn_transport.client.internal.CsvParserClient;
+import me.laus.tallinn_transport.client.internal.InternalCsvFileClient;
+import me.laus.tallinn_transport.model.SiriStop;
+import me.laus.tallinn_transport.model.factory.SiriStopFactory;
 
 import java.io.FileReader;
 import java.util.ArrayList;

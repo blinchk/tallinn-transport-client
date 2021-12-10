@@ -1,9 +1,10 @@
-package client;
+package me.laus.tallinn_transport.client.external;
 
-import model.Arrival;
-import model.SiriStop;
-import model.factory.ArrivalFactory;
-import model.request.SiriRequest;
+import me.laus.tallinn_transport.client.external.ExternalApiClient;
+import me.laus.tallinn_transport.model.Arrival;
+import me.laus.tallinn_transport.model.SiriStop;
+import me.laus.tallinn_transport.model.factory.ArrivalFactory;
+import me.laus.tallinn_transport.model.request.SiriRequest;
 
 import java.net.http.HttpRequest;
 import java.util.*;
@@ -16,7 +17,7 @@ public class SiriClient extends ExternalApiClient {
         super(TRANSPORT_TALLINN_URL, SIRI_ENDPOINT);
     }
 
-    public List<Arrival> requestArrivals(SiriStop stop) {
+    public List<Arrival> request(SiriStop stop) {
         Map<String, String> parameters = SiriRequest.buildParameters(stop);
         HttpRequest request = this.getRequestBuilder().buildGetRequest(parameters);
         String[] response = sendRequest(request);

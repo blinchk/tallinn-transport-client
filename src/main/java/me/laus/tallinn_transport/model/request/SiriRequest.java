@@ -1,6 +1,6 @@
-package model.request;
+package me.laus.tallinn_transport.model.request;
 
-import model.SiriStop;
+import me.laus.tallinn_transport.model.SiriStop;
 
 import java.time.Instant;
 import java.util.Map;

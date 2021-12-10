@@ -1,6 +1,6 @@
-package client;
+package me.laus.tallinn_transport.client.external;
 
-import model.builder.ExternalApiRequestBuilder;
+import me.laus.tallinn_transport.model.builder.ExternalApiRequestBuilder;
 
 import java.io.IOException;
 import java.net.http.HttpClient;

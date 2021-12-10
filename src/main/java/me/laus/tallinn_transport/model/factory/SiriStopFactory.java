@@ -1,10 +1,10 @@
-package model.factory;
+package me.laus.tallinn_transport.model.factory;
 
-import model.Location;
-import model.SiriStop;
-import model.SiriStopLocation;
+import me.laus.tallinn_transport.model.Location;
+import me.laus.tallinn_transport.model.SiriStop;
+import me.laus.tallinn_transport.model.SiriStopLocation;
 
-import static model.SiriStop.MINIMUM_LENGTH_WITH_NAME;
+import static me.laus.tallinn_transport.model.SiriStop.MINIMUM_LENGTH_WITH_NAME;
 
 public class SiriStopFactory {
     private final static int GTFS_ID_INDEX = 0;

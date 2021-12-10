@@ -1,4 +1,4 @@
-package util;
+package me.laus.tallinn_transport.util;
 
 import java.util.Calendar;
 import java.util.Date;
