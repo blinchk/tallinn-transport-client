@@ -1,13 +1,15 @@
 package me.laus.tallinn_transport.client.external;
 
-import me.laus.tallinn_transport.client.external.ExternalApiClient;
 import me.laus.tallinn_transport.model.Arrival;
 import me.laus.tallinn_transport.model.SiriStop;
 import me.laus.tallinn_transport.model.factory.ArrivalFactory;
 import me.laus.tallinn_transport.model.request.SiriRequest;
 
 import java.net.http.HttpRequest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class SiriClient extends ExternalApiClient {
     private static final String TRANSPORT_TALLINN_URL = "transport.tallinn.ee";

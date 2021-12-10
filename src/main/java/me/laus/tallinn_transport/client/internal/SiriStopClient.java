@@ -1,7 +1,5 @@
 package me.laus.tallinn_transport.client.internal;
 
-import me.laus.tallinn_transport.client.internal.CsvParserClient;
-import me.laus.tallinn_transport.client.internal.InternalCsvFileClient;
 import me.laus.tallinn_transport.model.SiriStop;
 import me.laus.tallinn_transport.model.factory.SiriStopFactory;
 
