@@ -1,6 +1,6 @@
 package me.laus.tallinn_transport.model.builder;
 
-import me.laus.tallinn_transport.model.request.RequestParameter;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
@@ -16,20 +16,17 @@ public class ExternalApiRequestBuilder {
         this.host = host;
         this.path = path;
     }
-    
-    private URI buildRequestUri(List<RequestParameter> parameters) throws URISyntaxException {
-        URIBuilder endpointUriBuilder = new URIBuilder()
+
+    private URI buildRequestUri(List<? extends NameValuePair> parameters) throws URISyntaxException {
+        return new URIBuilder()
                 .setScheme("https")
                 .setHost(host)
-                .setPath(path);
-        if (parameters.isEmpty()) {
-            return endpointUriBuilder.build();
-        }
-
-        return endpointUriBuilder.build();
+                .setPath(path)
+                .addParameters((List<NameValuePair>) parameters)
+                .build();
     }
 
-    private HttpRequest.Builder createBuilderForUri(List<RequestParameter> parameters) throws URISyntaxException {
+    private HttpRequest.Builder createBuilderForUri(List<? extends NameValuePair> parameters) throws URISyntaxException {
         URI uri = buildRequestUri(parameters);
         System.out.println(uri.toString());
         return HttpRequest
@@ -37,7 +34,7 @@ public class ExternalApiRequestBuilder {
                 .uri(uri);
     }
 
-    public HttpRequest buildGetRequest(List<RequestParameter> parameters) {
+    public HttpRequest buildGetRequest(List<? extends NameValuePair> parameters) {
         try {
             return createBuilderForUri(parameters).GET().build();
         } catch (URISyntaxException e) {
