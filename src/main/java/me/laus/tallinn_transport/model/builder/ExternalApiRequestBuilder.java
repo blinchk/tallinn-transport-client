@@ -1,11 +1,12 @@
 package me.laus.tallinn_transport.model.builder;
 
+import me.laus.tallinn_transport.model.request.RequestParameter;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
-import java.util.Map;
+import java.util.List;
 
 public class ExternalApiRequestBuilder {
     private final String host;
@@ -16,7 +17,7 @@ public class ExternalApiRequestBuilder {
         this.path = path;
     }
     
-    private URI buildRequestUri(Map<String, String> parameters) throws URISyntaxException {
+    private URI buildRequestUri(List<RequestParameter> parameters) throws URISyntaxException {
         URIBuilder endpointUriBuilder = new URIBuilder()
                 .setScheme("https")
                 .setHost(host)
@@ -24,14 +25,11 @@ public class ExternalApiRequestBuilder {
         if (parameters.isEmpty()) {
             return endpointUriBuilder.build();
         }
-        for (Map.Entry parameter: parameters.entrySet()) {
-            endpointUriBuilder.addParameter(String.valueOf(parameter.getKey()),
-                    String.valueOf(parameter.getValue()));
-        }
+
         return endpointUriBuilder.build();
     }
 
-    private HttpRequest.Builder createBuilderForUri(Map<String, String> parameters) throws URISyntaxException {
+    private HttpRequest.Builder createBuilderForUri(List<RequestParameter> parameters) throws URISyntaxException {
         URI uri = buildRequestUri(parameters);
         System.out.println(uri.toString());
         return HttpRequest
@@ -39,7 +37,7 @@ public class ExternalApiRequestBuilder {
                 .uri(uri);
     }
 
-    public HttpRequest buildGetRequest(Map<String, String> parameters) {
+    public HttpRequest buildGetRequest(List<RequestParameter> parameters) {
         try {
             return createBuilderForUri(parameters).GET().build();
         } catch (URISyntaxException e) {
