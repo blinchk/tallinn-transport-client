@@ -2,9 +2,9 @@ package me.laus.tallinn.transport.client.external;
 
 import me.laus.tallinn.transport.model.Arrival;
 import me.laus.tallinn.transport.model.SiriStop;
-import me.laus.tallinn.transport.model.request.RequestParameter;
-import me.laus.tallinn.transport.model.request.SiriRequestParameters;
-import me.laus.tallinn.transport.model.factory.ArrivalFactory;
+import me.laus.tallinn.transport.model.request.ExternalApiRequest;
+import me.laus.tallinn.transport.model.request.HttpMethod;
+import me.laus.tallinn.transport.model.request.SiriRequest;
 
 import java.net.http.HttpRequest;
 import java.util.Arrays;
@@ -20,8 +20,11 @@ public class SiriClient extends ExternalApiClient {
     }
 
     public List<Arrival> request(SiriStop stop) {
-        List<RequestParameter> parameters = SiriRequestParameters.of(stop);
-        HttpRequest request = this.getRequestBuilder().buildGetRequest(parameters);
+        List<ExternalApiRequest.Parameter> parameters = SiriRequest.Parameters.newBuilder()
+                .setStop(stop)
+                .setTime()
+                .build();
+        HttpRequest request = this.getRequest(HttpMethod.GET, parameters);
         String[] response = sendRequest(request);
         try {
             return Arrays
@@ -29,7 +32,7 @@ public class SiriClient extends ExternalApiClient {
                     .subList(2, response.length)
                     .stream()
                     .map(arrival -> arrival.split(","))
-                    .map(arrival -> ArrivalFactory.fromList(arrival, stop))
+                    .map(arrival -> Arrival.Factory.fromList(arrival, stop))
                     .toList();
         } catch (IllegalArgumentException e) {
             return Collections.emptyList();

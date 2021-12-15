@@ -12,17 +12,9 @@ public class Stop {
         this.name = name;
     }
 
-    public int getHashCode() {
-        return this.gtfsId.hashCode();
-    }
-
     public Stop(String gtfsId, Location location, String name, String address) {
         this(gtfsId, location, name);
         this.address = address;
-    }
-
-    public String getGtfsId() {
-        return gtfsId;
     }
 
     public Location getLocation() {
@@ -31,13 +23,5 @@ public class Stop {
 
     public String getName() {
         return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

@@ -1,6 +1,7 @@
 package me.laus.tallinn.transport.client.external;
 
-import me.laus.tallinn.transport.model.builder.ExternalApiRequestBuilder;
+import me.laus.tallinn.transport.model.request.ExternalApiRequest;
+import me.laus.tallinn.transport.model.request.HttpMethod;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -8,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Objects;
 
 public class ExternalApiClient {
@@ -34,7 +36,11 @@ public class ExternalApiClient {
         return Objects.requireNonNull(response).body().split("\n");
     }
 
-    public ExternalApiRequestBuilder getRequestBuilder() {
-        return new ExternalApiRequestBuilder(this.host, this.path);
+    public HttpRequest getRequest(HttpMethod method, List<ExternalApiRequest.Parameter> parameters) {
+        return getRequest(method, null, parameters);
+    }
+
+    public HttpRequest getRequest(HttpMethod method, HttpRequest.BodyPublisher bodyPublisher, List<ExternalApiRequest.Parameter> parameters) {
+        return new ExternalApiRequest.Builder().setHost(host).setPath(path).setMethod(method, bodyPublisher).addParameters(parameters).build();
     }
 }

@@ -1,7 +1,6 @@
 package me.laus.tallinn.transport.client.internal;
 
 import me.laus.tallinn.transport.model.SiriStop;
-import me.laus.tallinn.transport.model.factory.SiriStopFactory;
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class SiriStopClient extends InternalCsvFileClient implements CsvParserCl
         final int DEFAULT_NAME_INDEX = 5;
         for (var stopStrings : stopsStrings) {
             if (stopStrings.length >= SiriStop.MINIMUM_LENGTH_WITH_NAME) backupName = stopStrings[DEFAULT_NAME_INDEX];
-            var stop = SiriStopFactory.fromList(stopStrings, backupName);
+            var stop = SiriStop.Factory.fromList(stopStrings, backupName);
             stops.add(stop);
         }
         return stops;
