@@ -17,40 +17,46 @@ public abstract class ExternalApiRequest {
         return new ExternalApiRequest.Builder();
     }
 
-
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Parameter implements NameValuePair {
-        private String name;
-        private String value;
+        private final String name;
+        private final String value;
 
+        public Parameter(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
 
         @Override
         public String getName() {
             return name;
         }
 
-        void setName(String name) {
-            this.name = name;
-        }
-
         @Override
         public String getValue() {
             return value;
         }
-
-        void setValue(String value) {
-            this.value = value;
-        }
     }
 
-    public static class Builder {
+    public static class Builder implements ExternalApiRequestBuilder {
         private final URIBuilder uriBuilder;
         private final HttpRequest.Builder httpRequestBuilder;
 
         public Builder() {
             this.uriBuilder = new URIBuilder();
             this.httpRequestBuilder = HttpRequest.newBuilder();
+        }
+
+        public Builder setScheme(ExternalApiRequestScheme scheme) {
+            this.uriBuilder.setScheme(scheme.toString().toLowerCase());
+            return this;
+        }
+
+        public Builder useHttps() {
+            return setScheme(ExternalApiRequestScheme.HTTPS);
+        }
+
+        public Builder useHttp() {
+            return setScheme(ExternalApiRequestScheme.HTTP);
         }
 
         public Builder setHost(String host) {

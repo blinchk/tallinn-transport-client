@@ -24,7 +24,7 @@ public class SiriClient extends ExternalApiClient {
                 .setStop(stop)
                 .setTime()
                 .build();
-        HttpRequest request = this.getRequest(HttpMethod.GET, parameters);
+        HttpRequest request = this.buildRequest(HttpMethod.GET, parameters);
         String[] response = sendRequest(request);
         try {
             return Arrays

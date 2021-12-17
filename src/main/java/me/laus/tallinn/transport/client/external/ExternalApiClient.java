@@ -1,6 +1,7 @@
 package me.laus.tallinn.transport.client.external;
 
 import me.laus.tallinn.transport.model.request.ExternalApiRequest;
+import me.laus.tallinn.transport.model.request.ExternalApiRequestScheme;
 import me.laus.tallinn.transport.model.request.HttpMethod;
 
 import java.io.IOException;
@@ -15,14 +16,22 @@ import java.util.Objects;
 public class ExternalApiClient {
     private final String host;
     private final String path;
+    private final ExternalApiRequestScheme scheme;
 
     private final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
     private final HttpResponse.BodyHandler<String> RESPONSE_BODY_HANDLER = HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET);
 
-    public ExternalApiClient(String host,
+    public ExternalApiClient(ExternalApiRequestScheme scheme,
+                             String host,
                              String path) {
+        this.scheme = scheme;
         this.host = host;
         this.path = path;
+    }
+
+    public ExternalApiClient(String host,
+                             String path) {
+        this(ExternalApiRequestScheme.HTTPS, host, path);
     }
 
     protected String[] sendRequest(HttpRequest request) {
@@ -36,11 +45,11 @@ public class ExternalApiClient {
         return Objects.requireNonNull(response).body().split("\n");
     }
 
-    public HttpRequest getRequest(HttpMethod method, List<ExternalApiRequest.Parameter> parameters) {
-        return getRequest(method, null, parameters);
+    public HttpRequest buildRequest(HttpMethod method, List<ExternalApiRequest.Parameter> parameters) {
+        return buildRequest(method, HttpRequest.BodyPublishers.noBody(), parameters);
     }
 
-    public HttpRequest getRequest(HttpMethod method, HttpRequest.BodyPublisher bodyPublisher, List<ExternalApiRequest.Parameter> parameters) {
-        return new ExternalApiRequest.Builder().setHost(host).setPath(path).setMethod(method, bodyPublisher).addParameters(parameters).build();
+    public HttpRequest buildRequest(HttpMethod method, HttpRequest.BodyPublisher bodyPublisher, List<ExternalApiRequest.Parameter> parameters) {
+        return new ExternalApiRequest.Builder().setScheme(scheme).setHost(host).setPath(path).setMethod(method, bodyPublisher).addParameters(parameters).build();
     }
 }

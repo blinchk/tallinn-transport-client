@@ -11,17 +11,17 @@ public class Arrival {
     private final Stop stop;
     private final Date actual;
     private final Date expected;
-    private final boolean isLowFloor;
+    private final boolean lowFloor;
 
     private final int TIME_DIFFERENCE_MILLISECONDS_DELIMITER = 1000;
     private final int SECONDS_DELIMITER = 60;
 
-    public Arrival(Route route, Stop stop, Date actual, Date expected, boolean isLowFloor) {
+    public Arrival(Route route, Stop stop, Date actual, Date expected, boolean lowFloor) {
         this.route = route;
         this.stop = stop;
         this.actual = actual;
         this.expected = expected;
-        this.isLowFloor = isLowFloor;
+        this.lowFloor = lowFloor;
     }
 
     public Arrival(Route route, Stop stop, Date expected, boolean isLowFloor) {
@@ -57,6 +57,13 @@ public class Arrival {
         return (int) (getTimeDifferenceInSeconds() / SECONDS_DELIMITER);
     }
 
+    public boolean isLowFloor() {
+        return lowFloor;
+    }
+
+    /**
+     * Factory for {@link Arrival}.
+     */
     public static class Factory {
         private final static int TRANSPORT_TYPE_INDEX = 0;
         private final static int ROUTE_NUMBER_INDEX = 1;
