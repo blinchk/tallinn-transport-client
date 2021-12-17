@@ -1,5 +1,6 @@
 package me.laus.tallinn.transport.model;
 
+import me.laus.tallinn.transport.model.siri.Route;
 import me.laus.tallinn.transport.util.DateUtils;
 
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ public class Arrival {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         return String.format("Stop: %s | Route: %s %s \n- Expected: %s | Actual: %s | %s min (%s min) \n- %s",
                 stop.getName(),
-                route.getRouteNumber(),
+                route.getNumber(),
                 route.getDestination(),
                 dateFormat.format(expected),
                 dateFormat.format(actual),
@@ -72,7 +73,7 @@ public class Arrival {
         private final static int ROUTE_DESTINATION_INDEX = 4;
 
         public static Arrival fromList(String[] parts, Stop stop) {
-            TransportType transportType = TransportType.fromString(parts[TRANSPORT_TYPE_INDEX]);
+            TransportType transportType = TransportType.fromSiriString(parts[TRANSPORT_TYPE_INDEX]);
             Route route = new Route(transportType, parts[ROUTE_NUMBER_INDEX], parts[ROUTE_DESTINATION_INDEX]);
             Date actual = DateUtils.secondsToDate(Integer.parseInt(parts[ACTUAL_TIME_IN_SECONDS_INDEX]));
             Date expected = DateUtils.secondsToDate(Integer.parseInt(parts[EXPECTED_TIME_IN_SECONDS_INDEX]));

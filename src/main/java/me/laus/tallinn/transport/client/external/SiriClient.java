@@ -1,7 +1,7 @@
 package me.laus.tallinn.transport.client.external;
 
 import me.laus.tallinn.transport.model.Arrival;
-import me.laus.tallinn.transport.model.SiriStop;
+import me.laus.tallinn.transport.model.siri.Stop;
 import me.laus.tallinn.transport.model.request.ExternalApiRequest;
 import me.laus.tallinn.transport.model.request.HttpMethod;
 import me.laus.tallinn.transport.model.request.SiriRequest;
@@ -11,20 +11,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SiriClient extends ExternalApiClient {
-    private static final String TRANSPORT_TALLINN_URL = "transport.tallinn.ee";
+public class SiriClient extends TallinnExternalApiClient {
     private static final String SIRI_ENDPOINT = "/siri-stop-departures.php";
 
     public SiriClient() {
-        super(TRANSPORT_TALLINN_URL, SIRI_ENDPOINT);
+        super(SIRI_ENDPOINT);
     }
 
-    public List<Arrival> request(SiriStop stop) {
+    public List<Arrival> fetch(Stop stop) {
         List<ExternalApiRequest.Parameter> parameters = SiriRequest.Parameters.newBuilder()
                 .setStop(stop)
                 .setTime()
                 .build();
-        HttpRequest request = this.buildRequest(HttpMethod.GET, parameters);
+        HttpRequest request = buildRequest(HttpMethod.GET, parameters);
         String[] response = sendRequest(request);
         try {
             return Arrays

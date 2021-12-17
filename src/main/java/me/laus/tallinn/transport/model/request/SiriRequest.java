@@ -1,6 +1,6 @@
 package me.laus.tallinn.transport.model.request;
 
-import me.laus.tallinn.transport.model.SiriStop;
+import me.laus.tallinn.transport.model.siri.Stop;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public abstract class SiriRequest extends ExternalApiRequest {
         public class Builder {
             private Builder() {}
 
-            public Builder setStop(SiriStop stop) {
+            public Builder setStop(Stop stop) {
                 Parameters.this.add(new ExternalApiRequest.Parameter("stopid", stop.getSiriId()));
                 return this;
             }

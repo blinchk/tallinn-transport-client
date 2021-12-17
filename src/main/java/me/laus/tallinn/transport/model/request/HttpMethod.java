@@ -13,5 +13,9 @@ public enum HttpMethod {
     PUT,
     CONNECT,
     OPTIONS,
-    PATCH
+    PATCH;
+
+    public boolean isBodyRequired() {
+        return this != GET && this != HEAD && this != OPTIONS;
+    }
 }

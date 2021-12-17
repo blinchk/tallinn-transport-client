@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
-public class InternalCsvFileClient extends InternalFileClient {
+public class InternalCsvFileReaderClient extends InternalFileReaderClient {
     public List<String[]> readCsv(FileReader fileReader) {
         CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
         CSVReader csvReader = new CSVReaderBuilder(fileReader).withCSVParser(csvParser).withSkipLines(1).build();

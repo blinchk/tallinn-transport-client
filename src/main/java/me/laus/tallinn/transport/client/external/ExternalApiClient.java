@@ -1,5 +1,6 @@
 package me.laus.tallinn.transport.client.external;
 
+import me.laus.tallinn.transport.exception.RequestBodyRequiredException;
 import me.laus.tallinn.transport.model.request.ExternalApiRequest;
 import me.laus.tallinn.transport.model.request.ExternalApiRequestScheme;
 import me.laus.tallinn.transport.model.request.HttpMethod;
@@ -45,11 +46,17 @@ public class ExternalApiClient {
         return Objects.requireNonNull(response).body().split("\n");
     }
 
+    public HttpRequest buildRequest(HttpMethod method) {
+        if (method.isBodyRequired()) throw new RequestBodyRequiredException(method);
+        return ExternalApiRequest.newBuilder().setScheme(scheme).setHost(host).setPath(path).setMethod(method, HttpRequest.BodyPublishers.noBody()).build();
+    }
+
     public HttpRequest buildRequest(HttpMethod method, List<ExternalApiRequest.Parameter> parameters) {
+        if (method.isBodyRequired()) throw new RequestBodyRequiredException(method);
         return buildRequest(method, HttpRequest.BodyPublishers.noBody(), parameters);
     }
 
     public HttpRequest buildRequest(HttpMethod method, HttpRequest.BodyPublisher bodyPublisher, List<ExternalApiRequest.Parameter> parameters) {
-        return new ExternalApiRequest.Builder().setScheme(scheme).setHost(host).setPath(path).setMethod(method, bodyPublisher).addParameters(parameters).build();
+        return ExternalApiRequest.newBuilder().setScheme(scheme).setHost(host).setPath(path).setMethod(method, bodyPublisher).addParameters(parameters).build();
     }
 }
