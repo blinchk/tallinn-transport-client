@@ -11,16 +11,9 @@ class SiriClient : TallinnExternalApiClient(SIRI_ENDPOINT) {
         val parameters: List<ExternalApiRequest.Parameter?> = SiriRequest.buildParameters(stop)
         val request = buildRequest(HttpMethod.GET, parameters)
         val response = sendRequest(request)
-        return try {
-            listOf(*response)
-                .subList(2, response.size)
-                .stream()
-                .map { arrival: String? -> arrival!!.split(",").toTypedArray() }
-                .map { arrival: Array<String>? -> arrival?.let { Arrival.Factory.fromList(it, stop) } }
-                .toList()
-        } catch (e: IllegalArgumentException) {
-            emptyList()
-        }
+        return listOf(*response).subList(2, response.size).stream()
+            .map { arrival: String? -> arrival!!.split(",").toTypedArray() }
+            .map { arrival: Array<String>? -> arrival?.let { Arrival.Factory.fromList(it, stop) } }.toList()
     }
 
     companion object {

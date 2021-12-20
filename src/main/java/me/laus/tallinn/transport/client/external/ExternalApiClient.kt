@@ -17,8 +17,8 @@ open class ExternalApiClient(
     private val host: String,
     private val path: String
 ) {
-    private val DEFAULT_CHARSET = StandardCharsets.UTF_8
-    private val RESPONSE_BODY_HANDLER = HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET)
+    private val defaultCharset = StandardCharsets.UTF_8
+    private val responseBodyHandler = HttpResponse.BodyHandlers.ofString(defaultCharset)
 
     constructor(
         host: String,
@@ -28,9 +28,9 @@ open class ExternalApiClient(
 
     protected fun sendRequest(request: HttpRequest?): Array<String> {
         val client = HttpClient.newHttpClient()
-        var response: HttpResponse<String>? = null
+        lateinit var response: HttpResponse<String>
         try {
-            response = client.send(request, RESPONSE_BODY_HANDLER)
+            response = client.send(request, responseBodyHandler)
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: InterruptedException) {

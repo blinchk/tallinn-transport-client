@@ -20,7 +20,12 @@ class Vehicle(val location: Location, val route: Route, val label: String, val n
 
     object Factory {
         fun fromList(parts: Array<String>): Vehicle {
-            val transportType: TransportType = TransportType.Companion.fromGpsInteger(parts[0].toInt())
+            val transportTypeNumber = try {
+                parts[0].toInt()
+            } catch (e: NumberFormatException) {
+                1
+            }
+            val transportType: TransportType = TransportType.fromGpsInteger(transportTypeNumber)
             val route = Route(transportType, parts[1])
             val latitude = parts[2].toDouble() / LocationUtils.GPS_COORDINATE_DELIMITER
             val longitude = parts[3].toDouble() / LocationUtils.GPS_COORDINATE_DELIMITER
