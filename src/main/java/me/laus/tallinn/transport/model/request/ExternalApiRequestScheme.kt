@@ -1,6 +1,5 @@
-package me.laus.tallinn.transport.model.request;
+package me.laus.tallinn.transport.model.request
 
-public enum ExternalApiRequestScheme {
-    HTTPS,
-    HTTP
+enum class ExternalApiRequestScheme {
+    HTTPS, HTTP
 }

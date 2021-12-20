@@ -1,12 +1,10 @@
-package me.laus.tallinn.transport.model.siri;
+package me.laus.tallinn.transport.model.siri
 
-import me.laus.tallinn.transport.model.Location;
+import me.laus.tallinn.transport.model.Location
 
-public class StopLocation extends Location {
-    public StopLocation(double latitude, double longitude) {
-        super(latitude, longitude);
+class StopLocation(latitude: Double, longitude: Double) : Location(latitude, longitude) {
+    companion object {
+        const val LATITUDE_INDEX = 2
+        const val LONGITUDE_INDEX = 3
     }
-
-    public final static int LATITUDE_INDEX = 2;
-    public final static int LONGITUDE_INDEX = 3;
 }

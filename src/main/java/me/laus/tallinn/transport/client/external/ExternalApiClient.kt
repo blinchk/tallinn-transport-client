@@ -1,62 +1,61 @@
-package me.laus.tallinn.transport.client.external;
+package me.laus.tallinn.transport.client.external
 
-import me.laus.tallinn.transport.exception.RequestBodyRequiredException;
-import me.laus.tallinn.transport.model.request.ExternalApiRequest;
-import me.laus.tallinn.transport.model.request.ExternalApiRequestScheme;
-import me.laus.tallinn.transport.model.request.HttpMethod;
+import me.laus.tallinn.transport.exception.RequestBodyRequiredException
+import me.laus.tallinn.transport.model.request.ExternalApiRequest
+import me.laus.tallinn.transport.model.request.ExternalApiRequestScheme
+import me.laus.tallinn.transport.model.request.HttpMethod
+import java.io.IOException
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpRequest.BodyPublisher
+import java.net.http.HttpResponse
+import java.nio.charset.StandardCharsets
+import java.util.*
 
-import java.io.IOException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Objects;
+open class ExternalApiClient(
+    private val scheme: ExternalApiRequestScheme,
+    private val host: String,
+    private val path: String
+) {
+    private val DEFAULT_CHARSET = StandardCharsets.UTF_8
+    private val RESPONSE_BODY_HANDLER = HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET)
 
-public class ExternalApiClient {
-    private final String host;
-    private final String path;
-    private final ExternalApiRequestScheme scheme;
-
-    private final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-    private final HttpResponse.BodyHandler<String> RESPONSE_BODY_HANDLER = HttpResponse.BodyHandlers.ofString(DEFAULT_CHARSET);
-
-    public ExternalApiClient(ExternalApiRequestScheme scheme,
-                             String host,
-                             String path) {
-        this.scheme = scheme;
-        this.host = host;
-        this.path = path;
+    constructor(
+        host: String,
+        path: String
+    ) : this(ExternalApiRequestScheme.HTTPS, host, path) {
     }
 
-    public ExternalApiClient(String host,
-                             String path) {
-        this(ExternalApiRequestScheme.HTTPS, host, path);
-    }
-
-    protected String[] sendRequest(HttpRequest request) {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpResponse<String> response = null;
+    protected fun sendRequest(request: HttpRequest?): Array<String> {
+        val client = HttpClient.newHttpClient()
+        var response: HttpResponse<String>? = null
         try {
-            response = client.send(request, RESPONSE_BODY_HANDLER);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            response = client.send(request, RESPONSE_BODY_HANDLER)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
         }
-        return Objects.requireNonNull(response).body().split("\n");
+        return Objects.requireNonNull(response)?.body()?.split("\n")?.toTypedArray()!!
     }
 
-    public HttpRequest buildRequest(HttpMethod method) {
-        if (method.isBodyRequired()) throw new RequestBodyRequiredException(method);
-        return ExternalApiRequest.newBuilder().setScheme(scheme).setHost(host).setPath(path).setMethod(method, HttpRequest.BodyPublishers.noBody()).build();
+    fun buildRequest(method: HttpMethod): HttpRequest {
+        if (method.isBodyRequired) throw RequestBodyRequiredException(method)
+        return ExternalApiRequest.newBuilder().scheme(scheme).host(host).path(path)
+            .method(method, HttpRequest.BodyPublishers.noBody()).build()!!
     }
 
-    public HttpRequest buildRequest(HttpMethod method, List<ExternalApiRequest.Parameter> parameters) {
-        if (method.isBodyRequired()) throw new RequestBodyRequiredException(method);
-        return buildRequest(method, HttpRequest.BodyPublishers.noBody(), parameters);
+    fun buildRequest(method: HttpMethod, parameters: List<ExternalApiRequest.Parameter?>?): HttpRequest {
+        if (method.isBodyRequired) throw RequestBodyRequiredException(method)
+        return buildRequest(method, HttpRequest.BodyPublishers.noBody(), parameters)
     }
 
-    public HttpRequest buildRequest(HttpMethod method, HttpRequest.BodyPublisher bodyPublisher, List<ExternalApiRequest.Parameter> parameters) {
-        return ExternalApiRequest.newBuilder().setScheme(scheme).setHost(host).setPath(path).setMethod(method, bodyPublisher).addParameters(parameters).build();
+    fun buildRequest(
+        method: HttpMethod?,
+        bodyPublisher: BodyPublisher?,
+        parameters: List<ExternalApiRequest.Parameter?>?
+    ): HttpRequest {
+        return ExternalApiRequest.newBuilder().scheme(scheme).host(host).path(path).method(method!!, bodyPublisher)
+            .parameters(parameters).build()!!
     }
 }

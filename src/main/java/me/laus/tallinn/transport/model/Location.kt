@@ -1,23 +1,7 @@
-package me.laus.tallinn.transport.model;
+package me.laus.tallinn.transport.model
 
-public class Location {
-    private final double latitude;
-    private final double longitude;
-
-    public Location(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public String toString() {
-        return latitude + ", " + longitude;
+open class Location(val latitude: Double, val longitude: Double) {
+    override fun toString(): String {
+        return "$latitude, $longitude"
     }
 }

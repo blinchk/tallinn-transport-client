@@ -1,7 +1,5 @@
-package me.laus.tallinn.transport.client;
+package me.laus.tallinn.transport.client
 
-import java.util.ArrayList;
-
-public interface ParserClient<T> {
-    ArrayList<T> parse();
+interface ParserClient<T> {
+    fun parse(): ArrayList<T>
 }

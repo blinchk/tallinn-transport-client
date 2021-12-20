@@ -1,32 +1,20 @@
-package me.laus.tallinn.transport.client.internal;
+package me.laus.tallinn.transport.client.internal
 
-import me.laus.tallinn.transport.client.ParserClient;
-import me.laus.tallinn.transport.model.siri.Stop;
+import me.laus.tallinn.transport.client.ParserClient
+import me.laus.tallinn.transport.model.siri.Stop
 
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-public class SiriStopClient extends InternalCsvFileReaderClient implements ParserClient<Stop> {
-    private final String path;
-
-    public SiriStopClient(String path) {
-        this.path = path;
-    }
-
-    public ArrayList<Stop> parse() {
-        var stops = new ArrayList<Stop>();
-        FileReader fileReader = readFile(path);
-        List<String[]> result = readCsv(fileReader);
-        List<String[]> stopsStrings = Objects.requireNonNull(result).stream().takeWhile(stop -> stop.length > 4).toList();
-        String backupName = "";
-        final int DEFAULT_NAME_INDEX = 5;
-        for (var stopStrings : stopsStrings) {
-            if (stopStrings.length >= Stop.MINIMUM_LENGTH_WITH_NAME) backupName = stopStrings[DEFAULT_NAME_INDEX];
-            var stop = Stop.Factory.fromList(stopStrings, backupName);
-            stops.add(stop);
+class SiriStopClient(path: String?) : InternalCsvFileReaderClient(path), ParserClient<Stop?> {
+    override fun parse(): ArrayList<Stop?> {
+        val stops = ArrayList<Stop?>()
+        val result = validateLength(readCsv()!!, 4)
+        val defaultNameIndex = 5
+        var backupName: String = ""
+        for (stopStrings in result) {
+            if (stopStrings.size >= Stop.MINIMUM_LENGTH_WITH_NAME) backupName =
+                stopStrings[defaultNameIndex]
+            val stop = Stop.Factory.fromList(stopStrings, backupName)
+            stops.add(stop)
         }
-        return stops;
+        return stops
     }
 }

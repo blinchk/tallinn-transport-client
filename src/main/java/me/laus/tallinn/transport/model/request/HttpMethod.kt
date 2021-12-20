@@ -1,21 +1,12 @@
-package me.laus.tallinn.transport.model.request;
-
+package me.laus.tallinn.transport.model.request
 
 /**
- * HTTP method to fetch data from External API using {@link ExternalApiRequest}.
- * @see <a href="https://datatracker.ietf.org/doc/html/rfc7231#section-4">RFC 7231 Section 4</a>
+ * HTTP method to fetch data from External API using [ExternalApiRequest].
+ * @see [RFC 7231 Section 4](https://datatracker.ietf.org/doc/html/rfc7231.section-4)
  */
-public enum HttpMethod {
-    GET,
-    HEAD,
-    POST,
-    DELETE,
-    PUT,
-    CONNECT,
-    OPTIONS,
-    PATCH;
+enum class HttpMethod {
+    GET, HEAD, POST, DELETE, PUT, CONNECT, OPTIONS, PATCH;
 
-    public boolean isBodyRequired() {
-        return this != GET && this != HEAD && this != OPTIONS;
-    }
+    val isBodyRequired: Boolean
+        get() = this != GET && this != HEAD && this != OPTIONS
 }

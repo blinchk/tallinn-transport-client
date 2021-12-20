@@ -1,6 +1,6 @@
-package me.laus.tallinn.transport.model;
+package me.laus.tallinn.transport.model
 
-public interface Route {
-    public TransportType getTransportType();
-    public String getNumber();
+interface Route {
+    val transportType: TransportType?
+    val number: String?
 }

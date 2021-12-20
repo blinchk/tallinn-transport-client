@@ -1,9 +1,6 @@
-package me.laus.tallinn.transport.exception;
+package me.laus.tallinn.transport.exception
 
-import me.laus.tallinn.transport.model.request.HttpMethod;
+import me.laus.tallinn.transport.model.request.HttpMethod
 
-public class RequestBodyRequiredException extends RuntimeException {
-    public RequestBodyRequiredException(HttpMethod method) {
-        super(String.format("HTTP method %s cannot be requested without body ", method));
-    }
-}
+class RequestBodyRequiredException(method: HttpMethod?) :
+    RuntimeException(String.format("HTTP method %s cannot be requested without body ", method))

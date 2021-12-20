@@ -1,5 +1,5 @@
-package me.laus.tallinn.transport.model;
+package me.laus.tallinn.transport.model
 
-public enum Unit {
+enum class Unit {
     METERS
 }

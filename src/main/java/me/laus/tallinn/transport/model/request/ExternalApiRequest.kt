@@ -1,95 +1,86 @@
-package me.laus.tallinn.transport.model.request;
+package me.laus.tallinn.transport.model.request
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpRequest;
-import java.util.List;
+import lombok.NoArgsConstructor
+import org.apache.http.NameValuePair
+import org.apache.http.client.utils.URIBuilder
+import java.net.URI
+import java.net.URISyntaxException
+import java.net.http.HttpRequest
+import java.net.http.HttpRequest.BodyPublisher
+import java.util.*
 
 @NoArgsConstructor
-public abstract class ExternalApiRequest {
-    public static Builder newBuilder() {
-        return new ExternalApiRequest.Builder();
-    }
-
-    public static class Parameter implements NameValuePair {
-        private final String name;
-        private final String value;
-
-        public Parameter(String name, String value) {
-            this.name = name;
-            this.value = value;
+abstract class ExternalApiRequest {
+    class Parameter(private val name: String, private val value: String) : NameValuePair {
+        override fun getName(): String {
+            return name
         }
 
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String getValue() {
-            return value;
+        override fun getValue(): String {
+            return value
         }
     }
 
-    public static class Builder implements ExternalApiRequestBuilder {
-        private final URIBuilder uriBuilder;
-        private final HttpRequest.Builder httpRequestBuilder;
+    class ExternalApiRequestBuilder : ApiRequestBuilder {
+        private val uriBuilder: URIBuilder
+        private val httpRequestBuilder: HttpRequest.Builder
 
-        public Builder() {
-            this.uriBuilder = new URIBuilder();
-            this.httpRequestBuilder = HttpRequest.newBuilder();
+        init {
+            uriBuilder = URIBuilder()
+            httpRequestBuilder = HttpRequest.newBuilder()
         }
 
-        public Builder setScheme(ExternalApiRequestScheme scheme) {
-            this.uriBuilder.setScheme(scheme.toString().toLowerCase());
-            return this;
+        override fun scheme(scheme: ExternalApiRequestScheme): ExternalApiRequestBuilder {
+            uriBuilder.scheme = scheme.toString().lowercase(Locale.getDefault())
+            return this
         }
 
-        public Builder useHttps() {
-            return setScheme(ExternalApiRequestScheme.HTTPS);
+        override fun https(): ExternalApiRequestBuilder {
+            return scheme(ExternalApiRequestScheme.HTTPS)
         }
 
-        public Builder useHttp() {
-            return setScheme(ExternalApiRequestScheme.HTTP);
+        override fun http(): ExternalApiRequestBuilder {
+            return scheme(ExternalApiRequestScheme.HTTP)
         }
 
-        public Builder setHost(String host) {
-            this.uriBuilder.setHost(host);
-            return this;
+        override fun host(host: String?): ExternalApiRequestBuilder {
+            uriBuilder.host = host
+            return this
         }
 
-        public Builder setPath(String path) {
-            this.uriBuilder.setPath(path);
-            return this;
+        override fun path(path: String?): ExternalApiRequestBuilder {
+            uriBuilder.path = path
+            return this
         }
 
-        public Builder addParameters(List<? extends NameValuePair> parameters) {
-            this.uriBuilder.addParameters((List<NameValuePair>) parameters);
-            return this;
+        override fun parameters(parameters: List<NameValuePair?>?): ExternalApiRequestBuilder {
+            uriBuilder.addParameters(parameters)
+            return this
         }
 
-        public Builder setMethod(@NonNull HttpMethod method, HttpRequest.BodyPublisher bodyPublisher) {
-            this.httpRequestBuilder.method(method.toString(), bodyPublisher);
-            return this;
+        override fun method(method: HttpMethod, bodyPublisher: BodyPublisher?): ExternalApiRequestBuilder {
+            httpRequestBuilder.method(method.toString(), bodyPublisher)
+            return this
         }
 
-        private URI getUri() {
-            try {
-                return this.uriBuilder.build();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
+        private val uri: URI?
+            get() {
+                try {
+                    return uriBuilder.build()
+                } catch (e: URISyntaxException) {
+                    e.printStackTrace()
+                }
+                return null
             }
-            return null;
-        }
 
-        public HttpRequest build() {
-            return this.httpRequestBuilder.uri(getUri()).build();
+        override fun build(): HttpRequest? {
+            return httpRequestBuilder.uri(uri).build()
+        }
+    }
+
+    companion object {
+        fun newBuilder(): ExternalApiRequestBuilder {
+            return ExternalApiRequestBuilder()
         }
     }
 }

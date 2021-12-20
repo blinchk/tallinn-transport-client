@@ -1,15 +1,15 @@
-package me.laus.tallinn.transport.client.internal;
+package me.laus.tallinn.transport.client.internal
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileNotFoundException
+import java.io.FileReader
 
-public class InternalFileReaderClient {
-    public FileReader readFile(String path) {
+open class InternalFileReaderClient {
+    fun initializeFileReader(path: String?): FileReader? {
         try {
-            return new FileReader(path);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return FileReader(path)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
         }
-        return null;
+        return null
     }
 }

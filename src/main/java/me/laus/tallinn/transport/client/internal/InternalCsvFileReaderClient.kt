@@ -1,24 +1,34 @@
-package me.laus.tallinn.transport.client.internal;
+package me.laus.tallinn.transport.client.internal
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvException;
+import com.opencsv.CSVParserBuilder
+import com.opencsv.CSVReaderBuilder
+import com.opencsv.exceptions.CsvException
+import java.io.FileReader
+import java.io.IOException
+import java.util.*
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
+abstract class InternalCsvFileReaderClient(path: String?) : InternalFileReaderClient() {
+    private val fileReader: FileReader?
 
-public class InternalCsvFileReaderClient extends InternalFileReaderClient {
-    public List<String[]> readCsv(FileReader fileReader) {
-        CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
-        CSVReader csvReader = new CSVReaderBuilder(fileReader).withCSVParser(csvParser).withSkipLines(1).build();
+    init {
+        fileReader = initializeFileReader(path)
+    }
+
+    fun readCsv(): List<Array<String>>? {
+        val csvParser = CSVParserBuilder().withSeparator(';').build()
+        val csvReader = CSVReaderBuilder(fileReader).withCSVParser(csvParser).withSkipLines(1).build()
         try {
-            return csvReader.readAll();
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
+            return csvReader.readAll()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: CsvException) {
+            e.printStackTrace()
         }
-        return null;
+        return null
+    }
+
+    fun validateLength(result: List<Array<String>>, atLeastLength: Int): List<Array<String>> {
+        return Objects.requireNonNull(result).stream().takeWhile { row: Array<String> -> row.size > atLeastLength }
+            .toList()
     }
 }
