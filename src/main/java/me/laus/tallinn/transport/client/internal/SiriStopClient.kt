@@ -3,7 +3,7 @@ package me.laus.tallinn.transport.client.internal
 import me.laus.tallinn.transport.client.ParserClient
 import me.laus.tallinn.transport.model.siri.Stop
 
-class SiriStopClient(path: String?) : InternalCsvFileReaderClient(path), ParserClient<Stop?> {
+class SiriStopClient(path: String) : InternalCsvFileReaderClient(path), ParserClient<Stop?> {
     override fun parse(): ArrayList<Stop?> {
         val stops = ArrayList<Stop?>()
         val result = validateLength(readCsv()!!, 4)

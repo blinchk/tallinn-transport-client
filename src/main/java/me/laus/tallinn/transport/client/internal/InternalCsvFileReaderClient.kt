@@ -7,8 +7,8 @@ import java.io.FileReader
 import java.io.IOException
 import java.util.*
 
-abstract class InternalCsvFileReaderClient(path: String?) : InternalFileReaderClient() {
-    private val fileReader: FileReader?
+abstract class InternalCsvFileReaderClient(path: String) : InternalFileReaderClient() {
+    private val fileReader: FileReader
 
     init {
         fileReader = initializeFileReader(path)
